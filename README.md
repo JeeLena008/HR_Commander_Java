@@ -3,26 +3,33 @@
 ![Views](https://komarev.com/ghpvc/?username=JeeLena008&repo=HR_Commander_Java&label=Project%20Views&color=green&style=flat-square)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/jelena-krstic-b077a8220)
 
-## 📝 Project Overview
-**HR Commander** is a specialized management tool designed to bridge the gap between administrative complexity and software efficiency. This project automates critical HR workflows, ensuring legal compliance and data integrity through robust Java logic.
-
-Developed as a core part of my transition from **Administrative Professional to Java Developer**, this tool replaces manual Excel tracking with automated, object-oriented solutions.
+## 📋 Project Overview
+**HR Commander** is a robust Java-based system designed to replace manual Excel tracking in HR departments. It automates legal compliance, salary calculations, and document tracking.
 
 ---
 
-## ✨ Key Features
-*   **Automated Employee ID Generation:** Uses static counters to assign unique identification numbers.
-*   **CSV Data Persistence:** Implements File I/O logic to export employee databases into CSV format.
-*   **Smart Legal Logic:** Automatically calculates the 24-month limit for contracts and skips holidays.
-*   **Payroll Reporting:** Summary reports using polymorphism to calculate total company costs.
+### 🛠 Core Functionalities
+*   🆔 **Auto-ID:** Automatic generation of unique employee IDs (1001, 1002...).
+*   📊 **CSV Engine:** Full export/import logic for Excel compatibility (using `;` separator).
+*   ⚖️ **Legal Logic:** Automatic tracking of the 24-month contract limit.
+*   💰 **Payroll:** Summary reporting and total company cost calculation.
+*   📅 **Smart Dates:** Automatic calculation of document expiry (+1 year) and contract signing dates.
 
 ---
 
-## 🛠 Technical Implementation
+### 💻 Technical Stack
 *   **Language:** Java Core (JDK 17+)
-*   **OOP Principles:** Inheritance, Abstraction, and Interfaces.
-*   **Collections:** ArrayList and HashMap for data management.
-*   **Error Handling:** Try-Catch blocks for File I/O.
+*   **Concepts:** OOP (Inheritance, Polymorphism), Collections (HashMap, ArrayList), File I/O.
+*   **Safety:** Robust Exception Handling (Try-Catch).
+
+---
+
+### 📈 Project Roadmap
+- [x] Core Architecture & OOP Structure
+- [x] Automated ID & Date Logic
+- [x] CSV Data Export & Import
+- [ ] **Next Step:** Code Refactoring & Model Expansion (Adding all Excel columns)
+- [ ] **Future:** SQL Database Integration
 
 ---
 
