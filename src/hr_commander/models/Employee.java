@@ -441,4 +441,15 @@ public abstract class Employee {
         //Return formatted date as text
         return date.format(srbFormat);
     }
+    
+    /**
+     * Converts employee data into a single line of text for file storage
+     * 
+     * @return data as a text line
+     */
+    public String toFileFormat(){
+        //CSV format
+        return this.employeeID + ";" + this.fullName + ";=\"" + this.personalId + "\";" + this.jobPosition;
+    }
+    
 }
