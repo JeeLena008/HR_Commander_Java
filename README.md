@@ -1,26 +1,31 @@
-# 🚀 HR Commander - Java Automation Tool
+# 🚀 HR Commander - Java & SQL Automation Tool
 
 ![Views](https://komarev.com/ghpvc/?username=JeeLena008&repo=HR_Commander_Java&label=Project%20Views&color=green&style=flat-square)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/jelena-krstic-b077a8220)
 
 ## 📋 Project Overview
-**HR Commander** is a robust Java-based system designed to replace manual Excel tracking in HR departments. It automates legal compliance, salary calculations, and document tracking.
+**HR Commander** is a robust Java-based system designed to replace manual Excel tracking in HR departments. It automates legal compliance, salary calculations, and document tracking using a professional MySQL backend.
 
 ---
 
 ### 🛠 Core Functionalities
 *   🆔 **Auto-ID:** Automatic generation of unique employee IDs (1001, 1002...).
+*   🗄️ **SQL Integration:** Real-time data fetching using JDBC and SQL JOINs with full UTF-8 support.
+*   ⚖️ **Legal Logic:** Automatic tracking of the 24-month contract limit and probation periods.
+*   📅 **Smart Dates:** Automatic calculation of document expiry and contract signing dates (skipping holidays).
+*   💰 **Payroll Engine:** Specialized salary calculation for different roles (Drivers, Engineers, Office).
 *   📊 **CSV Engine:** Full export/import logic for Excel compatibility (using `;` separator).
-*   ⚖️ **Legal Logic:** Automatic tracking of the 24-month contract limit.
-*   💰 **Payroll:** Summary reporting and total company cost calculation.
-*   📅 **Smart Dates:** Automatic calculation of document expiry (+1 year) and contract signing dates.
 
 ---
 
-### 💻 Technical Stack
+### 💻 Technical Stack & Architecture
 *   **Language:** Java Core (JDK 17+)
-*   **Concepts:** OOP (Inheritance, Polymorphism), Collections (HashMap, ArrayList), File I/O.
-*   **Safety:** Robust Exception Handling (Try-Catch).
+*   **Database:** MySQL 8.0 (Relational structure)
+*   **Architecture:** 
+    *   **OOP:** Inheritance (Abstract Employee class), Polymorphism, Interfaces.
+    *   **DAO Pattern:** Decoupled database logic from business logic.
+    *   **Safety:** Robust Exception Handling (Try-Catch) and secure credential management.
+*   **Concepts:** Collections (HashMap, ArrayList), File I/O.
 
 ---
 
@@ -28,8 +33,17 @@
 - [x] Core Architecture & OOP Structure
 - [x] Automated ID & Date Logic
 - [x] CSV Data Export & Import
-- [ ] **Next Step:** Code Refactoring & Model Expansion (Adding all Excel columns)
-- [ ] **Future:** SQL Database Integration
+- [x] **SQL Database Integration (Current Milestone)**
+- [ ] Advanced Reporting Module (In Progress)
+- [ ] Spring Boot Web Migration (Future)
+
+---
+
+### 📂 Project Structure
+*   `hr_commander.models` - Contains employee logic (Employee, TruckDriver, Engineer...)
+*   `hr_commander.utils` - Utility classes (DatabaseConnection, SerbianHolidays)
+*   `hr_commander.interfaces` - Skill standards (Drivable, Licensable)
+*   `hr_commander.dao` - SQL Database communication layer
 
 ---
 
