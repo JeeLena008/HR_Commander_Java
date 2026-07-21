@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import hr_commander.models.EmployeeDAO;
 
 /**
  * Main Testing Class
@@ -19,6 +20,27 @@ import java.io.FileReader;
 public class TestUnit {
 
     public static void main(String[] args) {
+        
+     try {
+    System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
+} catch (java.io.UnsupportedEncodingException e) {
+    System.out.println("Greška sa enkodingom: " + e.getMessage());
+}
+        
+        //---DATABASE CONNECTION TEST---
+        System.out.println("Pokusavam povezivanje sa bazom");
+        if(hr_commander.utils.DatabaseConnection.getConnection() !=null){
+            System.out.println("CESTITAMO! Java i SQL su se uspesno vencali! 🥂");
+            
+             EmployeeDAO dao = new EmployeeDAO();
+             dao.printAllEmployees();
+            
+        }else{
+            System.out.println("AU! Nesto nije u redu, proveri sifru u DatabaseConnection klasi.");
+           
+            
+        }
+        System.out.println("--------------------------------------------------\n");
 
         // 1. Creating a Truck Driver (Example: Marko)
         TruckDriver driver1 = new TruckDriver(
@@ -102,10 +124,10 @@ public class TestUnit {
 
         HashMap<Integer, Employee> idMap = new HashMap<>();
 
-        ana.setEmployeeID(101);
-        idMap.put(ana.getEmployeeID(), ana);
+        
+        idMap.put(ana.getEmployeeId(), ana);
 
-        System.out.println("Radnika sa ID 101 je: " + idMap.get(101).getFullName());
+        System.out.println("Radnik sa ID " + ana.getEmployeeId() + "je: " + idMap.get(ana.getEmployeeId()).getFullName());
 
         //1. Creating a list for all employees
         ArrayList<Employee> staffList = new ArrayList<>();

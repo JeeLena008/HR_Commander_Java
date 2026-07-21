@@ -10,40 +10,51 @@ import java.time.format.DateTimeFormatter;
  */
 public abstract class Employee {
 
-    // PERSONAL DATA & ID CARD
-    protected String fullName, personalId, idCardNumber;
-    protected LocalDate idCardExpiry;
-    protected String address, city, phone, bankAccount, bankName;
-    protected String profession, educationLevel, jobPosition;
+//--- 1. PERSONAL DATA
+    protected String fullName;
+    protected String personalId;//JMBG
+    protected String address;
+    protected String city;
+    protected String municipality;
+    protected String phone;
+    protected String educationLevel;
+    protected String profession;//Zanimanje iz diplome
+    protected String jobPosition;//Radno mesto u firmi
+    protected int employeeId;//Interni ID (1001, 1002...)
+    private static int idCounter = 1000;//Brojac za ID
 
-    //Unique ID for each employee
-    protected int employeeID;
-
-    //Static counter - shared memory for all employees
-    private static int idCounter = 1000;
-
-    // CONTRACTS & ANNEXES
+    //--- 2. CONTRACT DATA
+    protected String contractStatus;//Ugovor/Neodredjeno
     protected String activeContractNumber;
-    protected int annexNumber, extensionCount;
+    protected int annexNumber;
+    protected int extensionCount;
     protected boolean isPermanent;
-    protected LocalDate firstHireDate, contractDate, contractStartDate, contractEndDate;
+    protected LocalDate firstHireDate;
+    protected LocalDate contractDate;//Datum potpisivanja
+    protected LocalDate contractStartDate;
+    protected LocalDate contractEndDate;
     protected LocalDate probationEndDate;
+    protected boolean isActive = true;
 
-    // HEALTH & SAFETY
-    protected LocalDate medicalExamDate, safetyTrainingDate, glassesCertDate;
+    //--- 3. HEALTH & SAFETY
+    protected LocalDate medicalExamDate;
+    protected LocalDate safetyTrainingDate;//BZR
     protected boolean wearsGlasses;
+    protected LocalDate idCardExpiry;
+    protected LocalDate drivingLicenseExpiry;
+    protected LocalDate tachographCardExpiry;
 
-    // FINANCE & TIME
+    //--- 4. FINANCE & VACATION
     protected double baseSalary;
+    protected double individual_salary;//Prava plata iz baze
+    protected String bankAccount;
+    protected double overTimeHours;
     protected int oldVacation;
     protected int newVacation;
     protected int daysOfVacationUsed;
-    protected double overTimeHours; // Matches the field name precisely
-    protected double vacationDaysEarned;
-    protected boolean isActive = true; //Employee status (Active by default)
 
     /**
-     * Master Constructor
+     * Master Constructor - The official form for creating an employee
      *
      * @param fullName
      * @param personalId
@@ -58,69 +69,91 @@ public abstract class Employee {
 
         this.fullName = (fullName != null) ? fullName : "NO NAME";
         this.personalId = (personalId != null) ? personalId : "0000000000000";
-        this.baseSalary = salary;
+        this.individual_salary = salary;// Using our new refactored name
         this.activeContractNumber = (contractId != null) ? contractId : "N/A";
         this.contractStartDate = start;
         this.contractEndDate = end;
         this.isPermanent = permanent;
 
         // AUTOMATIC CONTRACT DATE LOGIC
+        this.employeeId = ++idCounter; //Auto-assign ID
+
         if (start != null) {
+            //Calculate siging date (skip weekends/holidays)
             LocalDate tempDate = start.minusDays(1);
             while (SerbianHolidays.isHolidayOrWeekend(tempDate)) {
                 tempDate = tempDate.minusDays(1);
+
             }
             this.contractDate = tempDate;
-
-            // PROBATION LOGIC: 1 month for the first contract
             this.probationEndDate = start.plusMonths(1);
 
         }
-        //Assign ID and increment the counter for the next one
-        this.employeeID = ++idCounter;
 
     }
+    //=================================================================
+    //GETTERS AND SETTERS - GROUP 1: PERSONAL DATA
+    //=================================================================
 
+    /**
+     * @return full name of the employee
+     */
+    public String getFullName() {
+        return fullName;
+    }
+
+    /**
+     * @return personal ID (JMBG)
+     */
     public String getPersonalId() {
         return personalId;
     }
 
-    public int getEmployeeID() {
-        return employeeID;
+    /**
+     * @return internal company ID
+     */
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployeeID(int employeeID) {
-        this.employeeID = employeeID;
+    /**
+     * @return current job position
+     */
+    public String getJobPosition() {
+        return jobPosition;
     }
 
-    public String getIdCardNumber() {
-        return idCardNumber;
+    /**
+     * @param jobPosition sets the actual role
+     */
+    public void setJobPosition(String jobPosition) {
+        this.jobPosition = jobPosition;
     }
 
-    public void setIdCardNumber(String idCardNumber) {
-        this.idCardNumber = idCardNumber;
-    }
-
-    public LocalDate getIdCardExpiry() {
-        return idCardExpiry;
-    }
-
-    public void setIdCardExpiry(LocalDate idCardExpiry) {
-        this.idCardExpiry = idCardExpiry;
-    }
-
+    /**
+     * @return home address
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * @param address sets the home address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * @return city of residence
+     */
     public String getCity() {
         return city;
     }
 
+    /**
+     * @param city sets the city
+     */
     public void setCity(String city) {
         this.city = city;
     }
@@ -133,323 +166,303 @@ public abstract class Employee {
         this.phone = phone;
     }
 
-    public String getBankAccount() {
-        return bankAccount;
+    //===============================================
+    //GETTERS AND SETTERS - GROUP 2: CONTRACT DATA
+    //===============================================
+    /**
+     * @return current contract status
+     */
+    public String getContractStatus() {
+        return contractStatus;
     }
 
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
+    /**
+     * @param contractStatus sets the status
+     */
+    public void setContractStatus(String contractStatus) {
+        this.contractStatus = contractStatus;
     }
 
-    public String getBankName() {
-        return bankName;
+    /**
+     * @return active contract number
+     */
+    public String getActiveContractNumber() {
+        return activeContractNumber;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    /**
+     * @param number sets the contract number
+     */
+    public void setActiveContractNumber(String number) {
+        this.activeContractNumber = number;
     }
 
-    public String getProfession() {
-        return profession;
-    }
-
-    public void setProfession(String profession) {
-        this.profession = profession;
-    }
-
-    public String getJobPosition() {
-        return jobPosition;
-    }
-
-    public void setJobPosition(String jobPosition) {
-        this.jobPosition = jobPosition;
-    }
-
-    public String getEducationLevel() {
-        return educationLevel;
-    }
-
-    public void setEducationLevel(String educationLevel) {
-        this.educationLevel = educationLevel;
-    }
-
-    public int getAnnexNumber() {
-        return annexNumber;
-    }
-
-    public void setAnnexNumber(int annexNumber) {
-        this.annexNumber = annexNumber;
-    }
-
+    /**
+     * @return number of extension
+     */
     public int getExtensionCount() {
         return extensionCount;
     }
 
-    public void setExtensionCount(int extensionCount) {
-        this.extensionCount = extensionCount;
+    /**
+     * @param count sets the extension count
+     */
+    public void setExtensionCount(int count) {
+        this.extensionCount = count;
     }
 
-    public LocalDate getFirstHireDate() {
-        return firstHireDate;
-    }
-
+    /**
+     * @param firstHireDate sets the first day of employment
+     */
     public void setFirstHireDate(LocalDate firstHireDate) {
         this.firstHireDate = firstHireDate;
+
     }
 
-    public LocalDate getContractDate() {
-        return contractDate;
+    /**
+     * @return true if active employee
+     */
+    public boolean isActive() {
+        return isActive;
     }
 
-    public void setContractDate(LocalDate contractDate) {
-        this.contractDate = contractDate;
+    /**
+     * @param active sets status
+     */
+    public void setActive(boolean active) {
+        this.isActive = active;
     }
 
-    public LocalDate getProbationEndDate() {
-        return probationEndDate;
+    /**
+     * @return true if permanent employee
+     */
+    public boolean isPermanent() {
+        return isPermanent;
     }
 
-    public void setProbationEndDate(LocalDate probationEndDate) {
-        this.probationEndDate = probationEndDate;
+    /**
+     * @param permanent sets permanent status
+     */
+    public void setPermanent(boolean permanent) {
+        this.isPermanent = permanent;
     }
 
-    public LocalDate getMedicalExamDate() {
-        return medicalExamDate;
-    }
-
-    public void setMedicalExamDate(LocalDate medicalExamDate) {
-        this.medicalExamDate = medicalExamDate;
-    }
-
-    public LocalDate getSafetyTrainingDate() {
-        return safetyTrainingDate;
-    }
-
-    public void setSafetyTrainingDate(LocalDate safetyTrainingDate) {
-        this.safetyTrainingDate = safetyTrainingDate;
-    }
-
-    public LocalDate getGlassesCertDate() {
-        return glassesCertDate;
-    }
-
-    public void setGlassesCertDate(LocalDate glassesCertDate) {
-        this.glassesCertDate = glassesCertDate;
-    }
-
-    public boolean isWearsGlasses() {
-        return wearsGlasses;
-    }
-
-    public void setWearsGlasses(boolean wearsGlasses) {
-        this.wearsGlasses = wearsGlasses;
-    }
-
-    public double getOverTimeHours() {
-        return overTimeHours;
-    }
-
-    public void setOverTimeHours(double overTimeHours) {
-        this.overTimeHours = overTimeHours;
-    }
-
-    public double getVacationDaysEarned() {
-        return vacationDaysEarned;
-    }
-
-    public void setVacationDaysEarned(double vacationDaysEarned) {
-        this.vacationDaysEarned = vacationDaysEarned;
-    }
-
+    /**
+     * @return contract start date
+     */
     public LocalDate getContractStartDate() {
         return contractStartDate;
     }
 
-    public int getOldVacation() {
-        return oldVacation;
-    }
-
-    public void setOldVacation(int oldVacation) {
-        this.oldVacation = oldVacation;
-    }
-
-    public int getNewVacation() {
-        return newVacation;
-    }
-
-    public void setNewVacation(int newVacation) {
-        this.newVacation = newVacation;
-    }
-
-    public int getDaysOfVacationUsed() {
-        return daysOfVacationUsed;
-    }
-
-    public void setDaysOfVacationUsed(int daysOfVacationUsed) {
-        this.daysOfVacationUsed = daysOfVacationUsed;
+    /**
+     * @param date sets the start date
+     */
+    public void setContractStartDate(LocalDate date) {
+        this.contractStartDate = date;
     }
 
     /**
-     * Calculation of vacation days based on 1.66 days per month
+     * @return contract end date
+     */
+    public LocalDate getContractEndDate() {
+        return contractEndDate;
+    }
+
+    /**
+     * @param date sets the end date
+     */
+    public void setContractEndDate(LocalDate date) {
+        this.contractEndDate = date;
+    }
+
+    //===============================================
+    //GETTERS AND SETTERS - GROUP 3: HEALTH & SAFETY
+    //===============================================
+    /**
+     * @return date of the last medical exam
+     */
+    public LocalDate getMedicalExamDate() {
+        return medicalExamDate;
+    }
+
+    /**
+     * @param date sets the medical exam date
+     */
+    public void setMedicalExamDate(LocalDate date) {
+        this.medicalExamDate = date;
+    }
+
+    /**
+     * @return date of safety training (BZR)
+     */
+    public LocalDate getSafetyTrainingDate() {
+        return safetyTrainingDate;
+    }
+
+    /**
+     * @param date sets the BZR training date
+     */
+    public void setSafetyTrainingDate(LocalDate date) {
+        this.safetyTrainingDate = date;
+    }
+
+    /**
+     * @return true if employee wears glasses
+     */
+    public boolean isWearsGlasses() {
+        return wearsGlasses;
+    }
+
+    /**
+     * @param wearsGlasses sets the glasses status
+     */
+    public void setWearsGlasses(boolean wearsGlasses) {
+        this.wearsGlasses = wearsGlasses;
+    }
+
+    //====================================================
+    //GETTERS AND SETTERS - GROUP 4: FINANCE & VACATION
+    //====================================================
+    /**
+     * @return individual salary from database
+     */
+    public double getIndividualSalary() {
+        return individual_salary;
+    }
+
+    /**
+     * @param salary sets the actual salary
+     */
+    public void setIndividualSalary(double salary) {
+        this.individual_salary = salary;
+    }
+
+    /**
+     * @return banc account number
+     */
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    /**
+     * @param account sets the bank account
+     */
+    public void setBankAccount(String account) {
+        this.bankAccount = account;
+    }
+
+    /**
+     * @param days sets used vacation days
+     */
+    public void setDaysOfVacationUsed(int days) {
+        this.daysOfVacationUsed = days;
+    }
+
+    /**
+     * @param days sets old vacation days
+     */
+    public void setOldVacation(int days) {
+        this.oldVacation = days;
+    }
+
+    /**
+     * @param days sets new vacation days
+     */
+    public void setNewVacation(int days) {
+        this.newVacation = days;
+    }
+    //==============================================
+    //LOGIC METHODS
+    //=============================================
+
+    /**
+     * ABSTRACT method for salary calculation. Must be implemented by subclasses
+     *
+     * @return final calculated salary
+     */
+    public abstract double calculateFinalSalary();
+
+    /**
+     * Calculates vacation days based on 1.66 days per month.
      *
      * @return current vacation days
      */
     public double calculateCurrentVacation() {
-        if (firstHireDate == null) {
+        if (this.firstHireDate == null) {
             return 0;
         }
-        long monthsWorked = ChronoUnit.MONTHS.between(firstHireDate, LocalDate.now());
+        long monthsWorked = ChronoUnit.MONTHS.between(this.firstHireDate, LocalDate.now());
         return monthsWorked * 1.66;
     }
 
     /**
-     * Add overtime hours
+     * Adds overtime hours to the employee record.
      *
      * @param hours hours to add
      */
     public void addOvertime(double hours) {
         this.overTimeHours += hours;
+
     }
 
     /**
-     * Abstract method for salary calculation
+     * Calculates remaining vacation days: (Old + New) - Used
      *
-     * @return final salary
+     * @return remaining days
      */
-    public abstract double calculateFinalSalary();
+    public int calculateRemainingVacation() {
+        return (this.oldVacation + this.newVacation) - this.daysOfVacationUsed;
 
-    public String getFullName() {
-        return this.fullName;
     }
 
     /**
-     * Checks if the employee is currently active in the company.
+     * Checks if the 24-month limit for fixed-term contracts is reached
      *
-     * @return true if active, false if terminated
-     */
-    public boolean isActive() {
-        return this.isActive;
-    }
-
-    /**
-     * Sets the employee status (we use false when the employee resigns)
-     *
-     * @param isActive the new status of the employee
-     */
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    /**
-     * Checks if the employee must get a permanent contract (Labor Law - 24
-     * months limit).
-     *
-     * @return true if limit reached, false if limit not reached
+     * @return true if limit reached
      */
     public boolean isTimeForPermanentContract() {
-        // If any date is null, return FALSE immediately and stop!
-        if (this.firstHireDate == null || this.contractDate == null) {
+        if (this.firstHireDate == null || this.contractEndDate == null) {
             return false;
 
         }
-        // Calculate how many months will pass from the first day to the END of this contract.
-        long monthsWorked = ChronoUnit.MONTHS.between(this.firstHireDate, this.contractEndDate);
-        // If 24 months (or more) have passed, returns TRUE (Must be permanent!).
-        return monthsWorked >= 24;
+        long months = ChronoUnit.MONTHS.between(this.firstHireDate, this.contractEndDate);
+        return months >= 24;
 
     }
 
     /**
-     * Automatically calculates the medical exam expiry date (1 year from the
-     * exam date).
+     * Generates a unique contract reference number ( format:ddMMyy/ID).
      *
-     * @return expiry date, or null if no exam date is set
-     */
-    public LocalDate getMedicalExamExpiryDate() {
-        //If no exam date, return null
-        if (this.medicalExamDate == null) {
-            return null;
-        }
-        //Add exactly 1 year to the exam date
-        return this.medicalExamDate.plusYears(1);
-    }
-
-    /**
-     * Automatically calculates the safety training (BZR) expiry date (1 year
-     * from the training date).
-     *
-     * @return expiry date, or null if no training date is set
-     */
-    public LocalDate getSafetyTrainingExpiryDate() {
-        //If no training date, return null
-        if (this.safetyTrainingDate == null) {
-            return null;
-
-        }
-        //Add exactly 1 year to the training date
-        return this.safetyTrainingDate.plusYears(1);
-    }
-
-    /**
-     * Method that calculates the remaining vacation days.
-     *
-     * @return remaining vacation days
-     */
-    public int calculateRemainingVacation() {
-        // Adding old and new vacation
-        int totalVacation = this.oldVacation + this.newVacation;
-        // Subtracting used days
-        int remaining = totalVacation - this.daysOfVacationUsed;
-
-        return remaining;
-    }
-
-    /**
-     *
-     * Generates a contract number based on today's date and employee ID.
-     * Format: ddMMyy/ID
-     *
-     * @return zavodni broj ugovora (contract reference number)
+     * @return contract number
      */
     public String generateContractNumber() {
-        //Get today's date
-        LocalDate today = LocalDate.now();
-
-        //Format it to ddMMyy
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
-        String datePart = today.format(formatter);
-
-        //Combine date, slash and ID
-        return datePart + "/" + this.employeeID;
+        return LocalDate.now().format(formatter) + "/" + this.employeeId;
 
     }
 
     /**
-     * Converts Java date to Serbian format for Word contract (dd.MM.yyyy.).
+     * Formats any days to Serbian standard
      *
-     * @param date the date to format
-     * @return date as text in dd.MM.yyyy. forma)
+     * @param date date to format
+     * @return formatted string
      */
     public String getFormattedDate(LocalDate date) {
-        //If date is null, return empty string
         if (date == null) {
             return "";
         }
-        //Define the pattern: (day.month.year.).
         DateTimeFormatter srbFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-
-        //Return formatted date as text
         return date.format(srbFormat);
+
     }
-    
+
     /**
-     * Converts employee data into a single line of text for file storage
-     * 
-     * @return data as a text line
+     * Prepares a single line for CSV export with Excel JMBG protection.
+     *
+     * @return CSV line
      */
-    public String toFileFormat(){
-        //CSV format
-        return this.employeeID + ";" + this.fullName + ";=\"" + this.personalId + "\";" + this.jobPosition;
+    public String toFileFormat() {
+        return this.employeeId + ";" + this.fullName + ";=\"" + this.personalId + "\";" + this.jobPosition;
+
     }
-    
 }
