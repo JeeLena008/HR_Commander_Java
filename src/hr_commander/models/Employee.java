@@ -465,4 +465,37 @@ public abstract class Employee {
         return this.employeeId + ";" + this.fullName + ";=\"" + this.personalId + "\";" + this.jobPosition;
 
     }
+    //=================================================
+    //LOGIC METHODS
+    //=================================================
+    
+    /**
+     * CHECKS if the contract expires in the next 30 days
+     * 
+     * @return true if urgent
+     */
+    public boolean isContractUrgent(){
+        if(this.contractEndDate == null) return false;
+        LocalDate today = LocalDate.now();
+        return this.contractEndDate.isBefore(today.plusDays(30));
+    }
+    /**
+     * Check if the medical exam expires i  the next 30 days
+     * 
+     * @return true if expiring soon
+     */
+    public boolean isMedicalExpiring(){
+        if(this.medicalExamDate == null) return false;
+        LocalDate today = LocalDate.now();
+        
+        //Medical exam usually lasts 1 year
+        LocalDate expiryDate = this.medicalExamDate.plusYears(1);
+        return expiryDate.isBefore(today.plusDays(30));
+        
+    }
+   
+    
+    
+    
+    
 }
