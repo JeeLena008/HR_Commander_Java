@@ -1,0 +1,91 @@
+# ==============================================================================
+# 1. TAJNE, LOZINKE, AUTENTIFIKACIJA & SPRING BOOT ! ! !
+# ==============================================================================
+config.properties
+application-*.properties
+application-*.yml
+application-*.yaml
+*.env
+*.env.*
+*secret*
+*password*
+*credentials*
+
+# Bezbednosni sertifikati i privatni ključevi za servere i login tokene
+*.key
+*.pem
+*.cer
+*.crt
+*.p12
+*.jks
+*.keystore
+
+# ==============================================================================
+# 2. BAZA PODATAKA, EXCEL, TABELE I SQL SKRIPTE
+# ==============================================================================
+*.sql
+*.dump
+*.db
+*.sqlite
+*.sqlite3
+SQL_Scripts/
+baza_zaposlenih.csv
+
+# ==============================================================================
+# 3. GENERISANA DOKUMENTACIJA, QR KODOVI, UGOVORI I IZVEŠTAJI
+# ==============================================================================
+*.pdf
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.csv
+
+# Folderi za privremene fajlove, eksporte i slike QR kodova za radnike
+/exports/
+/reports/
+/generated_docs/
+/qr_codes/
+/uploads/
+/temp/
+
+# ==============================================================================
+# 4. SPRING BOOT & MAVEN / GRADLE BUILD SISTEMI
+# ==============================================================================
+target/
+build/
+.gradle/
+*.log
+logs/
+
+# ==============================================================================
+# 5. RAZVOJNA OKRUŽENJA (IntelliJ IDEA & NetBeans ostaci)
+# ==============================================================================
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# NetBeans folderi
+nbproject/
+nbbuild/
+dist/
+
+# ==============================================================================
+# 6. KOMPAJLIRANI JAVA FAJLOVI I ARHIVE
+# ==============================================================================
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# ==============================================================================
+# 7. SISTEMSKI FAJLOVI (Windows & Mac)
+# ==============================================================================
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
