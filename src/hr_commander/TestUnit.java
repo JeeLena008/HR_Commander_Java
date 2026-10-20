@@ -54,42 +54,44 @@ public class TestUnit {
         System.out.println("--- CHECK COMPLETED ---");
 
         // ========================================================
-        // LIVE TEST: SUPERVISOR IN ACTION WITH LIVE DATABASE
+        // 🚀 LIVE TEST: ENTERPRISE 360° SUPERVISOR AUDIT
         // ========================================================
+        System.out.println("\n========================================================");
+        System.out.println("          HR COMMANDER - 360° SUPERVISOR AUDIT          ");
+        System.out.println("========================================================");
 
-        System.out.println("\n=========================================");
-        System.out.println("    HR COMMANDER - SUPERVISOR REPORT       ");
-        System.out.println("===========================================");
-
-
-        //1. Clerk brings all employees from database
         ArrayList<Employee> dbStaff = dao.getAllEmployeesFromDB();
-
-        //2. We hand over the list to our Supervisor
         Supervisor supervisor = new Supervisor(dbStaff);
 
-        //3. Supervisor pulls the critical list (0-3 days)
-        ArrayList<Employee> critical = supervisor.getCriticalContracts();
-        System.out.println("\n KRITIČNI UGOVORI (0-3 DANA): " + critical.size());
-        for (Employee e : critical) {
-            System.out.println("     ->" + e.getFullName() + " | Ističe: " + e.getFormattedDate(e.getContractEndDate()));
+        // 1. PREKRŠAJI / ILEGALAN STATUS (Istekli ugovori, lekarski, BZR)
+        ArrayList<Employee> expired = supervisor.getExpiredComplianceAlerts();
+        System.out.println("\n🚨 ISTEKLI ROKOVI / PREKRŠAJI (HITNO REŠITI): " + expired.size());
+        for (Employee emp : expired) {
+            System.out.println("   [!] " + emp.getFullName() + " | Pozicija: " + emp.getJobPosition());
         }
-            //4. Supervisor pulls the urgent list (4-30 days)
-            ArrayList<Employee> urgent = supervisor.getUrgentContracts();
-            System.out.println("\n HITNI UGOVORI (4-30 DANA): "+ urgent.size());
-            for (Employee e: urgent){
-                System.out.println("    -> " + e.getFullName() + "|Ističe: " + e.getFormattedDate(e.getContractEndDate()));
-            }
 
-            //5. Supervisor pulls employees hitting the 24-month legal limit
-            ArrayList<Employee> permanent = supervisor.getCandidatesForPermanent();
-            System.out.println("\n KANDIDATI ZA UGOVOR NA NEODREĐENO (24 MESECA LIMIT): " + permanent.size());
-            for (Employee e : permanent){
-                System.out.println("   ----> " + e.getFullName() + "| Prvo zaposlenje: " + e.getFormattedDate(e.getFirstHireDate()));
-
-            }
-            System.out.println("\n=========================================================================");
-
+        // 2. KRITIČNI ROKOVI (0 do 3 dana)
+        ArrayList<Employee> critical = supervisor.getCriticalAlerts();
+        System.out.println("\n⚡ KRITIČNO (0 - 3 DANA): " + critical.size());
+        for (Employee emp : critical) {
+            System.out.println("   -> " + emp.getFullName() + " | Ugovor ističe: " + emp.getFormattedDate(emp.getContractEndDate()));
         }
+
+        // 3. HITNI ROKOVI (4 do 30 dana)
+        ArrayList<Employee> urgent = supervisor.getUrgentAlerts();
+        System.out.println("\n🟡 HITNO ZA REŠAVANJE OVOG MESECA (4 - 30 DANA): " + urgent.size());
+        for (Employee emp : urgent) {
+            System.out.println("   -> " + emp.getFullName() + " | Ugovor ističe: " + emp.getFormattedDate(emp.getContractEndDate()));
+        }
+
+        // 4. DIJAGNOSTIKA DOSIJEA (TAČNO ŠTA KOME FALI OD DOKUMENTACIJE!)
+        ArrayList<Employee> incomplete = supervisor.getEmployeesWithIncompleteFiles();
+        System.out.println("\n📋 DOSIJEI SA NEKOMPLETNOM DOKUMENTACIJOM: " + incomplete.size());
+        for (Employee emp : incomplete) {
+            System.out.println("   ❌ " + emp.getFullName() + " -> NEDOSTAJE: " + emp.getMissingDocumentationDetails());
+        }
+
+        System.out.println("\n========================================================");
     }
+}
 

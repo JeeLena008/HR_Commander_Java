@@ -5,6 +5,7 @@ import hr_commander.utils.SerbianHolidays;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  * Base abstract class for all employees.
@@ -486,6 +487,7 @@ public abstract class Employee {
         return date.format(srbFormat);
 
     }
+
     /**
      * Prepares a single line for CSV export with Excel JMBG protection.
      *
@@ -662,6 +664,45 @@ public abstract class Employee {
         LocalDate expiry = getBzrExpiryDate();
         long days = getDaysUntil(expiry);
         return days > 30 && days <= 60;
+    }
+
+    /**
+     * Checks employee profile and returns an exact list of missing mandatory documents/data.
+     *
+     * @return String detailing missing items, or empty string if complete
+     */
+    public String getMissingDocumentationDetails() {
+        ArrayList<String> missing = new ArrayList<>();
+
+        if (this.bankAccount == null || this.bankAccount.trim().isEmpty()) {
+            missing.add("Tekući račun");
+        }
+        if (this.medicalExamDate == null) {
+            missing.add("Lekarski pregled");
+        }
+        if (this.safetyTrainingDate == null) {
+            missing.add("BZR Obrazac 6");
+        }
+        if (this.idCardExpiry == null) {
+            missing.add("Lična karta");
+        }
+        if (this.phone == null || this.phone.trim().isEmpty()) {
+            missing.add("Kontakt telefon");
+        }
+        if (missing.isEmpty()) {
+            return ""; //All complete
+        }
+        return String.join(", ", missing);
+
+    }
+
+    /**
+     * Quick check if documentation is incomplete.
+     *
+     * @return true if any required document is missing
+     */
+    public boolean hasIncompleteDocumentation() {
+        return !getMissingDocumentationDetails().isEmpty();
     }
 
 

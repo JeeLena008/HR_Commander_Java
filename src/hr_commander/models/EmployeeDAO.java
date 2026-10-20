@@ -70,7 +70,7 @@ public class EmployeeDAO {
                 LocalDate end = (sqlEnd != null) ? sqlEnd.toLocalDate() : null;
 
                 //Creating a new OfficeWorker object as a template
-                OfficeWorker e = new OfficeWorker(name, jmbg, salary, contract, start, end, true);
+                OfficeWorker e = new OfficeWorker(name, jmbg, salary, contract, start, end, false);
 
                 //Adding the employee to our dynamic list
                 list.add(e);
