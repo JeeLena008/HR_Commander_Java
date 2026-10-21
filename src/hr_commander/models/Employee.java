@@ -160,13 +160,36 @@ public abstract class Employee {
         this.city = city;
     }
 
+    /**
+     * @return phone number
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * @param phone sets the phone number
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    /**
+     * @param IdCardExpiry sets Id card expiry
+     */
+    public void setIdCardExpiry(LocalDate date) {
+        this.idCardExpiry = date;
+    }
+    /**
+     * @param DrivingLicenseExpiry sets driving license expiry
+     */
+    public void setDrivingLicenseExpiry(LocalDate date){ this.drivingLicenseExpiry = date;}
+
+    /**
+     * @param TachographCardExpiry sets tachograph card expiry
+     */
+    public void setTachographCardExpiry(LocalDate date){ this.tachographCardExpiry = date;}
+
 
     //===============================================
     //GETTERS AND SETTERS - GROUP 2: CONTRACT DATA
