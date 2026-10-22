@@ -60,7 +60,7 @@ public class EmployeeDAO {
      *
      * @return ArrayList of fully populated Employee objects
      */
-    public ArrayList<Employee> getALlEmployeesFromDB() {
+    public ArrayList<Employee> getAllEmployeesFromDB() {
         ArrayList<Employee> list = new ArrayList<>();
 
         String query = "SELECT e.*, j.position_name FROM employees e " +

@@ -728,5 +728,74 @@ public abstract class Employee {
         return !getMissingDocumentationDetails().isEmpty();
     }
 
+    // =========================================================================
+    // STATUTORY ONBOARDING VALIDATOR
+    // =========================================================================
+
+    /**
+     * Validates if the employee profile meets all mandatory legal requirements
+     * for official registration (CROSO) and employment contract generation
+     *
+     * @return list of missing mandatory legal fields
+     */
+    public ArrayList<String> getOnboardingValidationErrors(){
+        ArrayList<String> errors = new ArrayList<>();
+
+        // 1. Full name
+        if (this.fullName == null || this.fullName.trim().isEmpty() || this.fullName.equals("NO NAME")){
+    errors.add("Ime i prezime radnika");
+        }
+
+        // 2. Personal ID must have 13 digits
+        if (this.personalId == null || !this.personalId.matches("\\d{13}")){
+            errors.add("JMBG (mora sadržati tačno 13 cifara)");
+        }
+
+        // 3. Address and city
+        if (this.address == null || this.address.trim().isEmpty()){
+            errors.add("Adresa prebivališta iz lične karte");
+        }
+        if (this.city == null || this.city.trim().isEmpty()){
+            errors.add("Mesto/Grad prebivališta");
+        }
+
+        // 4. Profession
+        if (this.profession == null || this.profession.trim().isEmpty()){
+            errors.add("Zanimanje iz diplome");
+        }
+
+        // 5. Systematization workplace
+        if (this.jobPosition == null || this.jobPosition.trim().isEmpty()){
+            errors.add("Radno mesto (pozicija)");
+        }
+
+        // 6. Agreed earnings
+        if (this.individual_salary <=0){
+            errors.add("Ugovorena osnovna zarada (mora biti veća od 0)");
+        }
+
+        // 7. Start date
+        if (this.contractStartDate == null){
+            errors.add("Datum stupanja na rad (početak ugovora)");
+        }
+
+        return errors;
+
+    }
+
+    /**
+     * Checks if the employee is legally ready for registration and contract generation.
+     *
+     * @return true if 100% compliant
+     */
+    public boolean isReadyForEmploymentContract(){
+        return getOnboardingValidationErrors().isEmpty();
+    }
+
+
+
+
+
+
 
 }
