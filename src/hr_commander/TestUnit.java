@@ -3,17 +3,15 @@ package hr_commander;
 import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.ArrayList;
-import hr_commander.models.Employee;
-import hr_commander.models.MachineryOperator;
-import hr_commander.models.TruckDriver;
-import hr_commander.models.OfficeWorker;
+
+import hr_commander.models.*;
+
 import java.time.LocalDate;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import hr_commander.models.EmployeeDAO;
 import java.util.Arrays;
 
 /**
@@ -92,6 +90,29 @@ public class TestUnit {
         }
 
         System.out.println("\n========================================================");
+
+        // ========================================================
+        // 🏖️ TEST: UPIS GODIŠNJEG ODMORA U BAZU (SQL INSERT)
+        // ========================================================
+        System.out.println("\n--- TESTIRAMO UPIS ODMORA U MYSQL BAZU ---");
+
+        VacationRecord odmor = new VacationRecord(
+                1,
+                LocalDate.of(2026, 7, 1),
+                LocalDate.of(2026, 7, 7),
+                5,
+                "OLD"
+        );
+        odmor.setNote("Prvi deo starog odmora - more");
+        odmor.setDecisionDate(LocalDate.of(2026, 6, 20)); //Datum resenja
+
+        boolean uspeh = dao.insertVacationRecord(odmor);
+
+        if (uspeh) {
+            System.out.println("BRAVO! Odmor je uspešno upisan u MySql bazu podataka!");
+        }else{
+            System.out.println("❌ Nešto je zapelo pri upisu.");
+        }
     }
 }
 

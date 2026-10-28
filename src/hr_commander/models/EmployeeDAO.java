@@ -2,10 +2,7 @@ package hr_commander.models;
 
 import hr_commander.utils.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;//Added for lists
 import java.time.LocalDate;//Added for dates
 import java.util.Locale;
@@ -115,6 +112,54 @@ public class EmployeeDAO {
         }
         return list;
     }
+    // =========================================================================
+    // VACATION OPERATIONS
+    // =========================================================================
+
+    /**
+     * Inserts a new vacation leave record into MySQL database using PreparedStatement.
+     *
+     * @param record populated VacationRecord object
+     * @return true if successfully inserted, false otherwise
+     */
+
+    public boolean insertVacationRecord(VacationRecord record) {
+        String sql = "INSERT INTO vacation_records " +
+                "(employee_id, start_date, end_date, working_days_used, vacation_type, decision_date, return_to_work_date, note) " +
+                "VALUES (?,?,?,?,?,?,?,?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, record.getEmployeeId());
+            pstmt.setDate(2, java.sql.Date.valueOf(record.getStartDate()));
+            pstmt.setDate(3, java.sql.Date.valueOf(record.getEndDate()));
+            pstmt.setInt(4, record.getWorkingDaysUsed());
+            pstmt.setString(5, record.getVacationType());
 
 
+            if (record.getDecisionDate() != null) {
+                pstmt.setDate(6, java.sql.Date.valueOf(record.getDecisionDate()));
+            } else {
+                pstmt.setNull(6, Types.DATE);
+
+            }
+
+            if (record.getReturnToWorkDate() != null) {
+                pstmt.setDate(7, java.sql.Date.valueOf(record.getReturnToWorkDate()));
+            } else {
+                pstmt.setNull(7, Types.DATE);
+            }
+            pstmt.setString(8, record.getNote());
+
+            int rowsInserted = pstmt.executeUpdate();
+            return rowsInserted > 0;
+
+        } catch (SQLException e) {
+            System.out.println("GREŠKA pri upisu odmora u bazu: " + e.getMessage());
+            return false;
+        }
+    }
 }
+
+
