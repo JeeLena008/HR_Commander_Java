@@ -20,21 +20,38 @@ public class VacationRecord {
     private String note;
 
     /**
-     * Master Constructor for creating a vacation leave record.
+     * Master Constructor - Automatically calculates working days and statutory decision dates.
      *
      * @param employeeId ID of the employee
      * @param startDate first day of vacation
      * @param endDate last day of vacation
-     * @param workingDaysUsed number of work days deducted
      * @param vacationType type of leave (OLD, NEW, BONUS...)
      */
 
-    public VacationRecord(int employeeId, LocalDate startDate, LocalDate endDate, int workingDaysUsed, String vacationType){
+    public VacationRecord(int employeeId, LocalDate startDate, LocalDate endDate, String vacationType){
         this.employeeId = employeeId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.workingDaysUsed = workingDaysUsed;
         this.vacationType = (vacationType != null)? vacationType : "NEW";
+
+        //=====================
+        // AUTOMATIZATION
+        //=====================
+        if (startDate != null && endDate !=null){
+            this.workingDaysUsed = hr_commander.utils.SerbianHolidays.calculateWorkingDays(startDate, endDate);
+
+            // Date of decision
+            this.decisionDate = startDate.minusDays(15);
+
+            // Mandatory return to work day
+            LocalDate nextWorkDay = endDate.plusDays(1);
+            while (hr_commander.utils.SerbianHolidays.isHolidayOrWeekend(nextWorkDay)){
+                nextWorkDay = nextWorkDay.plusDays(1);
+
+            }
+            this.returnToWorkDate = nextWorkDay;
+        }
+
     }
 
     // --- GETTERS AND SETTERS ---
