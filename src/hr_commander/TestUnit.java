@@ -1,18 +1,10 @@
 package hr_commander;
 
-import java.sql.SQLOutput;
-import java.util.HashMap;
 import java.util.ArrayList;
 
 import hr_commander.models.*;
 
 import java.time.LocalDate;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.Arrays;
 
 /**
  * Main Testing Class
@@ -100,7 +92,6 @@ public class TestUnit {
                 1,
                 LocalDate.of(2026, 7, 1),
                 LocalDate.of(2026, 7, 7),
-                5,
                 "OLD"
         );
         odmor.setNote("Prvi deo starog odmora - more");
@@ -113,6 +104,25 @@ public class TestUnit {
         }else{
             System.out.println("❌ Nešto je zapelo pri upisu.");
         }
+        //=========================================
+        //AUTOMATSKI OBRAČUN DANA I ROKOVA ODMORA
+        //=========================================
+            System.out.println("\n--- PROVERA SMART KALKULATORA (06.10. - 26.10.) ---");
+
+            //RADNIK IDE NA ODMOR OD 06.10.2026. DO 26.10.2026.
+            //NEMA RUČNOG UNOSA BROJA DANA - JAVA RAČUNA SAMA
+            VacationRecord testOdmor = new VacationRecord(
+                    1,
+                    LocalDate.of(2026, 10, 6),
+                    LocalDate.of(2026, 10, 26),
+                    "NEW"
+            );
+            System.out.println("Prvi dan odmora: " + testOdmor.getFormattedDate(testOdmor.getStartDate()));
+            System.out.println("Poslednji dan odmora: " + testOdmor.getFormattedDate(testOdmor.getEndDate()));
+            System.out.println("AUTOMATSKI IZRAČUNATO RADNIH DANA: " + testOdmor.getWorkingDaysUsed() + "dana");
+            System.out.println("ZAKONSKI DATUM REŠENJA (15 DANA PRE): " + testOdmor.getFormattedDate(testOdmor.getDecisionDate()));
+            System.out.println("DUŽNOST JAVLJANJA NA RAD (PRVI RADNI DAN): " + testOdmor.getFormattedDate(testOdmor.getReturnToWorkDate()));
+
     }
 }
 

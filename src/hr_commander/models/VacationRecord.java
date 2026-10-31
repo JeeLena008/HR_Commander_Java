@@ -132,7 +132,7 @@ public class VacationRecord {
      * Formats date to Serbian legal standard (dd.MM.yyyy.).
      */
 
-    public String getFormattedDAte(LocalDate date){
+    public String getFormattedDate(LocalDate date){
         if (date == null) return "";
         return date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy."));
     }
