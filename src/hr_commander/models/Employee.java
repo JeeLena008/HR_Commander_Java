@@ -180,15 +180,20 @@ public abstract class Employee {
     public void setIdCardExpiry(LocalDate date) {
         this.idCardExpiry = date;
     }
+
     /**
      * @param DrivingLicenseExpiry sets driving license expiry
      */
-    public void setDrivingLicenseExpiry(LocalDate date){ this.drivingLicenseExpiry = date;}
+    public void setDrivingLicenseExpiry(LocalDate date) {
+        this.drivingLicenseExpiry = date;
+    }
 
     /**
      * @param TachographCardExpiry sets tachograph card expiry
      */
-    public void setTachographCardExpiry(LocalDate date){ this.tachographCardExpiry = date;}
+    public void setTachographCardExpiry(LocalDate date) {
+        this.tachographCardExpiry = date;
+    }
 
 
     //===============================================
@@ -387,6 +392,13 @@ public abstract class Employee {
     }
 
     /**
+     * @return used vacation days
+     */
+    public int getDaysOfVacationUsed() {
+        return daysOfVacationUsed;
+    }
+
+    /**
      * @param days sets used vacation days
      */
     public void setDaysOfVacationUsed(int days) {
@@ -394,10 +406,24 @@ public abstract class Employee {
     }
 
     /**
+     * @return old vacation days
+     */
+    public int getOldVacation() {
+        return oldVacation;
+    }
+
+    /**
      * @param days sets old vacation days
      */
     public void setOldVacation(int days) {
         this.oldVacation = days;
+    }
+
+    /**
+     * @return new vacation days
+     */
+    public int getNewVacation() {
+        return newVacation;
     }
 
     /**
@@ -436,9 +462,49 @@ public abstract class Employee {
      * @return remaining days
      */
     public int calculateRemainingVacation() {
-        return (this.oldVacation + this.newVacation) - this.daysOfVacationUsed;
+        return this.oldVacation + this.newVacation;
 
     }
+    // ==========================
+    // VACATION DEDUCTION ENGINE
+    // ==========================
+
+    /**
+     * Deducts vacation days from employee balance according to Labor Law,
+     * supporting company-internal grace period for old vacation past June 30th
+     *
+     * @param daysToDeduct     working days to deduct
+     * @param startDate        first day of vacation
+     * @param allowOldPastJune internal company override flag
+     */
+    public void deductVacationDays(int daysToDeduct, LocalDate startDate, boolean allowOldPastJune) {
+        if (daysToDeduct <= 0 || startDate == null) return;
+
+        LocalDate cutoffDate = LocalDate.of(startDate.getYear(), 6, 30);
+        boolean isBeforeJune30 = !startDate.isAfter(cutoffDate);
+
+        boolean canUseOldVacation = isBeforeJune30 || allowOldPastJune;
+
+        int remainingToDeduct = daysToDeduct;
+
+        if (canUseOldVacation && this.oldVacation > 0) {
+            if (this.oldVacation >= remainingToDeduct) {
+                this.daysOfVacationUsed += remainingToDeduct;
+                remainingToDeduct = 0;
+            } else {
+                remainingToDeduct -= this.oldVacation;
+                this.daysOfVacationUsed += this.oldVacation;
+                this.oldVacation = 0;
+
+            }
+        }
+        if (remainingToDeduct > 0) {
+            this.newVacation -= remainingToDeduct;
+            this.daysOfVacationUsed += remainingToDeduct;
+
+        }
+    }
+
 
     /**
      * Adds overtime hours to the employee record.
@@ -738,44 +804,44 @@ public abstract class Employee {
      *
      * @return list of missing mandatory legal fields
      */
-    public ArrayList<String> getOnboardingValidationErrors(){
+    public ArrayList<String> getOnboardingValidationErrors() {
         ArrayList<String> errors = new ArrayList<>();
 
         // 1. Full name
-        if (this.fullName == null || this.fullName.trim().isEmpty() || this.fullName.equals("NO NAME")){
-    errors.add("Ime i prezime radnika");
+        if (this.fullName == null || this.fullName.trim().isEmpty() || this.fullName.equals("NO NAME")) {
+            errors.add("Ime i prezime radnika");
         }
 
         // 2. Personal ID must have 13 digits
-        if (this.personalId == null || !this.personalId.matches("\\d{13}")){
+        if (this.personalId == null || !this.personalId.matches("\\d{13}")) {
             errors.add("JMBG (mora sadržati tačno 13 cifara)");
         }
 
         // 3. Address and city
-        if (this.address == null || this.address.trim().isEmpty()){
+        if (this.address == null || this.address.trim().isEmpty()) {
             errors.add("Adresa prebivališta iz lične karte");
         }
-        if (this.city == null || this.city.trim().isEmpty()){
+        if (this.city == null || this.city.trim().isEmpty()) {
             errors.add("Mesto/Grad prebivališta");
         }
 
         // 4. Profession
-        if (this.profession == null || this.profession.trim().isEmpty()){
+        if (this.profession == null || this.profession.trim().isEmpty()) {
             errors.add("Zanimanje iz diplome");
         }
 
         // 5. Systematization workplace
-        if (this.jobPosition == null || this.jobPosition.trim().isEmpty()){
+        if (this.jobPosition == null || this.jobPosition.trim().isEmpty()) {
             errors.add("Radno mesto (pozicija)");
         }
 
         // 6. Agreed earnings
-        if (this.individual_salary <=0){
+        if (this.individual_salary <= 0) {
             errors.add("Ugovorena osnovna zarada (mora biti veća od 0)");
         }
 
         // 7. Start date
-        if (this.contractStartDate == null){
+        if (this.contractStartDate == null) {
             errors.add("Datum stupanja na rad (početak ugovora)");
         }
 
@@ -788,14 +854,9 @@ public abstract class Employee {
      *
      * @return true if 100% compliant
      */
-    public boolean isReadyForEmploymentContract(){
+    public boolean isReadyForEmploymentContract() {
         return getOnboardingValidationErrors().isEmpty();
     }
-
-
-
-
-
 
 
 }

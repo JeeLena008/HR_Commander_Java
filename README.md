@@ -35,15 +35,15 @@
     - [x] `Urgent` (4–30 days ahead / Immediate action)
     - [x] `Critical` (0–3 days ahead / Imminent breach alert)
 - [x] **Statutory Limit Monitor:** Enforcing the 24-month cap on fixed-term contracts (Labor Law Article 37).
-- [ ] **Health & Licensing Monitoring:**
-    - [ ] Periodic Medical Exam expirations (annual cycle).
-    - [ ] Professional Driving License & Tachograph Card tracking.
-    - [ ] Identification Card (Lična karta) expiry dates.
+- [x] **Health & Licensing Monitoring:**
+    - [x] Periodic Medical Exam expirations (annual cycle).
+    - [x] Professional Driving License & Tachograph Card tracking.
+    - [x] Identification Card (Lična karta) expiry dates.
 
 ### 🔵 PHASE 3: Vacation Accrual & Usage Engine (Next Step)
-- [ ] **Relational Vacation Schema:** Create `vacation_records` table to track fragmented leaves (*seckanje odmora*).
+- [x] **Relational Vacation Schema:** Create `vacation_records` table to track fragmented leaves (*seckanje odmora*).
 - [ ] **Accrual Logic:** Automated entitlement calculation based on months worked (1.66 days/month).
-- [ ] **Company Exception Engine:** Legal tracking vs. internal agreement allowing old vacation usage past June 30th.
+- [x] **Company Exception Engine:** Legal tracking vs. internal agreement allowing old vacation usage past June 30th.
 - [ ] **Automated Vacation Decisions:** Instant legal draft generation (*Rešenje o godišnjem odmoru*) replacing manual Word templates.
 
 ### 🟣 PHASE 4: Contract & Annex Generation Engine

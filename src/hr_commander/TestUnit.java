@@ -123,6 +123,31 @@ public class TestUnit {
             System.out.println("ZAKONSKI DATUM REŠENJA (15 DANA PRE): " + testOdmor.getFormattedDate(testOdmor.getDecisionDate()));
             System.out.println("DUŽNOST JAVLJANJA NA RAD (PRVI RADNI DAN): " + testOdmor.getFormattedDate(testOdmor.getReturnToWorkDate()));
 
+        // =========================================================================
+        // TESTIRAMO SKIDANJE DANA: ZAKON VS INTERNI DOGOVOR FIRME
+        // =========================================================================
+
+        System.out.println("\n--- TEST: ODBITAK DANA ODMORA SA STANJA RADNIKA ---");
+
+        Employee radnik = dbStaff.get(0);
+
+        radnik.setOldVacation(5);
+        radnik.setNewVacation(20);
+        radnik.setDaysOfVacationUsed(0);
+
+        System.out.println(" Radnik: " + radnik.getFullName());
+        System.out.println("POČETNO STANJE -> Stari: " + radnik.getOldVacation() + "dana | Novi: " + radnik.getNewVacation() + "dana (Ukupno: 25)");
+
+        radnik.deductVacationDays(testOdmor.getWorkingDaysUsed(), testOdmor.getStartDate(),true);
+
+        System.out.println("\n ODOBREN ODMOR: " + testOdmor.getWorkingDaysUsed() + "radnih dana u oktobru (posle 30. juna)");
+        System.out.println("NOVO STANJE NAKON SKIDANJA:");
+        System.out.println("   -> Preostalo starog odmora: " + radnik.getOldVacation() + "dana (potrošen prvi po dogovoru!)");
+        System.out.println("   -> Preostalo novog odmora: + " + radnik.getNewVacation() + "dana");
+        System.out.println("   -> Ukupno iskorišćeno dana: " + radnik.getDaysOfVacationUsed() + "dana");
+        System.out.println("   -> Ukupno još preostalo za tekuću godinu: " + radnik.calculateRemainingVacation() + "dana!");
+
     }
 }
+
 
