@@ -160,6 +160,39 @@ public class EmployeeDAO {
             return false;
         }
     }
+    /**
+     * Updates an employee's vacation balance in MySQL database after leave deduction.
+     *
+     * @param emp employee with updated vacation balance
+     * @return true if update succeeded
+     */
+    public boolean updateEmployeeVacationBalance(Employee emp){
+        String sql = "UPDATE employees SET " +
+                "old_vacation = ?, " +
+                "new_vacation = ?, " +
+                "days_of_vacation_used = ? " +
+                "WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, emp.getOldVacation());
+            pstmt.setInt(2, emp.getNewVacation());
+            pstmt.setInt(3, emp.getDaysOfVacationUsed());
+            pstmt.setInt(4, emp.getEmployeeId());
+
+            int rowsUpdated = pstmt.executeUpdate();
+            return rowsUpdated > 0;
+
+        }catch (SQLException e){
+            System.out.println("GREŠKA pri ažuriranju stanja odmora: " + e.getMessage());
+            return false;
+        }
+    }
+
+
+
+
 }
 
 
