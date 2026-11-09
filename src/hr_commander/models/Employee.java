@@ -55,6 +55,8 @@ public abstract class Employee {
     protected int newVacation;
     protected int daysOfVacationUsed;
 
+    protected ArrayList<VacationRecord> vacationHistory = new ArrayList<>();
+
     /**
      * Master Constructor - The official form for creating an employee
      *
@@ -464,6 +466,15 @@ public abstract class Employee {
     public int calculateRemainingVacation() {
         return this.oldVacation + this.newVacation;
 
+    }
+    /**
+     * Adds an approved vacation record to employee's historical dossier
+     */
+    public void addVacationRecord(VacationRecord record){
+        this.vacationHistory.add(record);
+    }
+    public ArrayList<VacationRecord> getVacationHistory(){
+        return this.vacationHistory;
     }
     // ==========================
     // VACATION DEDUCTION ENGINE
