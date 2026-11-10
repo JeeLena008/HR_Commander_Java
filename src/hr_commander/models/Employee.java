@@ -120,6 +120,15 @@ public abstract class Employee {
         return employeeId;
     }
 
+
+    /**
+     * @param employeeId sets internal company ID
+     */
+
+    public void setEmployeeId(int id) {
+        this.employeeId = id;
+    }
+
     /**
      * @return current job position
      */
@@ -467,13 +476,15 @@ public abstract class Employee {
         return this.oldVacation + this.newVacation;
 
     }
+
     /**
      * Adds an approved vacation record to employee's historical dossier
      */
-    public void addVacationRecord(VacationRecord record){
+    public void addVacationRecord(VacationRecord record) {
         this.vacationHistory.add(record);
     }
-    public ArrayList<VacationRecord> getVacationHistory(){
+
+    public ArrayList<VacationRecord> getVacationHistory() {
         return this.vacationHistory;
     }
     // ==========================

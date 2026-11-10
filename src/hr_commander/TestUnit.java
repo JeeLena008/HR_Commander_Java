@@ -147,6 +147,16 @@ public class TestUnit {
         System.out.println("   -> Ukupno iskorišćeno dana: " + radnik.getDaysOfVacationUsed() + "dana");
         System.out.println("   -> Ukupno još preostalo za tekuću godinu: " + radnik.calculateRemainingVacation() + "dana!");
 
+
+        boolean uspehAžuriranja = dao.updateEmployeeVacationBalance(radnik);
+
+        if (uspehAžuriranja == true) {
+            System.out.println("NOVO STANJE ODMORA JE TRAJNO SAČUVANO U SQL BAZI");
+        }else {
+            System.out.println("GREŠKA PRI AŽURIRANJU BAZE");
+        }
+
+
     }
 }
 

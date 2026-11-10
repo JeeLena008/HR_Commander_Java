@@ -81,6 +81,7 @@ public class EmployeeDAO {
                 boolean permanent = (end == null) || (statusText != null && statusText.toLowerCase().contains("neodređeno"));
 
                 OfficeWorker emp = new OfficeWorker(name, jmbg, salary, contractNum, start, end, permanent);
+                emp.setEmployeeId(rs.getInt("id"));
 
                 emp.setJobPosition(rs.getString("position_name"));
                 emp.setAddress(rs.getString("address"));
