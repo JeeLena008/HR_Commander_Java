@@ -156,7 +156,13 @@ public class TestUnit {
             System.out.println("GREŠKA PRI AŽURIRANJU BAZE");
         }
 
+        //====================================================
+        //TEST: GENERISANJE ZVANIČNOG REŠENJA ZA TASIĆA
+        //====================================================
+        DocumentEngine docEngine = new DocumentEngine();
+        String rešenjeTekst = docEngine.generateVacationDecision(radnik, testOdmor);
 
+        System.out.println("\n" + rešenjeTekst);
     }
 }
 
