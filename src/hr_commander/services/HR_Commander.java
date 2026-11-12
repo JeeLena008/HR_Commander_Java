@@ -1,4 +1,4 @@
-package hr_commander;
+package hr_commander.services;
 
 public class HR_Commander {
 

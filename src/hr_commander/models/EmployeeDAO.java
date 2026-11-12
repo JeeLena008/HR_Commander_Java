@@ -190,7 +190,37 @@ public class EmployeeDAO {
             return false;
         }
     }
+    // ==========================
+    // COMPANY PROFILE OPERATIONS
+    // ==========================
 
+    public CompanyProfile getCompanyProfileFromDB(){
+        String sql = "SELECT * FROM company_profile LIMIT 1";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) {
+
+                int id = rs.getInt("id");
+                String name = rs.getString("company_name");
+                String city = rs.getString("city");
+                String address = rs.getString("address");
+                String director = rs.getString("director_name");
+                String pib = rs.getString("pib");
+                String mb = rs.getString("mb");
+
+                return new CompanyProfile(id, name, city, address, director, pib, mb);
+            }
+
+        }
+        catch (SQLException e){
+
+            System.out.println("GREŠKA PRI ČITANJU PROFILA FIRME IZ BAZE: " + e.getMessage());
+
+        }
+        return null;
+    }
 
 
 

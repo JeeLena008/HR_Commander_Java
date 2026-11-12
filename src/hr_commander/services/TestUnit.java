@@ -1,10 +1,12 @@
-package hr_commander;
+package hr_commander.services;
 
 import java.util.ArrayList;
 
 import hr_commander.models.*;
 
 import java.time.LocalDate;
+
+
 
 /**
  * Main Testing Class
@@ -160,7 +162,10 @@ public class TestUnit {
         //TEST: GENERISANJE ZVANIČNOG REŠENJA ZA TASIĆA
         //====================================================
         DocumentEngine docEngine = new DocumentEngine();
-        String rešenjeTekst = docEngine.generateVacationDecision(radnik, testOdmor);
+
+        CompanyProfile firma = dao.getCompanyProfileFromDB();
+
+        String rešenjeTekst = docEngine.generateVacationDecision(radnik, testOdmor, firma);
 
         System.out.println("\n" + rešenjeTekst);
     }

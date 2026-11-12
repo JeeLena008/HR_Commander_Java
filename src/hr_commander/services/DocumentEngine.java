@@ -1,5 +1,6 @@
-package hr_commander;
+package hr_commander.services;
 
+import hr_commander.models.CompanyProfile;
 import hr_commander.models.Employee;
 import hr_commander.models.VacationRecord;
 import hr_commander.utils.CompanyConfig;
@@ -17,12 +18,13 @@ public class DocumentEngine {
  * @param vac vacation record details
  * @return full legal document text
  */
-public String generateVacationDecision(Employee emp, VacationRecord vac){
+public String generateVacationDecision(Employee emp, VacationRecord vac, CompanyProfile company){
+
     return "Na osnovu člana 192, a u vezi sa čl. 68. do 75. Zakona o radu (\"Službeni glasnik RS\", br. 24/2005, 61/2005,\n" +
             "54/2009, 32/2013, 75/2014, 13/2017 (Odluka US), 113/2017 i 95/2018 (autentično tumačenje), dalje: Zakon),\n" +
             "a u skladu sa Ugovorom o radu br. " + emp.getActiveContractNumber() + ",\n" +
-            CompanyConfig.getCompanyName() + ", " + CompanyConfig.getCompanyCity() + ", " + CompanyConfig.getCompanyAddress() + " (naziv i sedište poslodavca),\n" +
-            "direktor " + CompanyConfig.getDirectorName() + ", dana " + vac.getFormattedDate(vac.getDecisionDate()) + " godine, donosi:\n\n" +
+            company.getCompanyName() + ", " + company.getCity() + ", " + company.getAddress() + " (naziv i sedište poslodavca),\n" +
+            "direktor " + company.getDirectorName() + ", dana " + vac.getFormattedDate(vac.getDecisionDate()) + " godine, donosi:\n\n" +
             "                               REŠENJE O KORIŠĆENJU GODIŠNJEG ODMORA\n\n" +
             "1. Zaposlenom " + emp.getFullName() + " na poslovima " + emp.getJobPosition() + "\n" +
             "   odobrava se korišćenje godišnjeg odmora u trajanju od " + vac.getWorkingDaysUsed() + " radnih dana.\n\n" +

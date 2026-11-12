@@ -1,4 +1,4 @@
-package hr_commander;
+package hr_commander.services;
 
 import hr_commander.models.Employee;
 
