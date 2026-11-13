@@ -221,6 +221,51 @@ public class EmployeeDAO {
         }
         return null;
     }
+    // =================================================================
+    // VACATION HISTORY RETRIEVAL
+    // =================================================================
+
+    /**
+     * Fetches all vacation leave records for a specific employee from MySQL database.
+     *
+     * @param employeeId ID of the employee
+     * @return list of VacationRecord objects
+     */
+
+    public ArrayList<VacationRecord> getVacationHistoryByEmployeeId(int employeeId){
+        ArrayList<VacationRecord> history = new ArrayList<>();
+
+        String sql = "SELECT * FROM vacation_records WHERE employee_id = ? ORDER BY start_date DESC";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, employeeId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    LocalDate start = toLocalDate(rs.getDate("start_date"));
+                    LocalDate end = toLocalDate(rs.getDate("end_date"));
+                    String type = rs.getString("vacation_type");
+
+                    VacationRecord record = new VacationRecord(employeeId, start, end, type);
+
+                    record.setId(rs.getInt("id"));
+                    record.setDecisionDate(toLocalDate(rs.getDate("decision_date")));
+
+                    record.setReturnToWorkDate(toLocalDate(rs.getDate("return_to_work_date")));
+                    record.setNote(rs.getString("note"));
+
+                    history.add(record);
+
+                }
+            }
+        }catch (SQLException e){
+
+            System.out.println("GREŠKA pri citanju istorije odmora: " + e.getMessage());
+        }
+        return history;
+    }
 
 
 

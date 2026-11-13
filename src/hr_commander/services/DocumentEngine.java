@@ -3,7 +3,6 @@ package hr_commander.services;
 import hr_commander.models.CompanyProfile;
 import hr_commander.models.Employee;
 import hr_commander.models.VacationRecord;
-import hr_commander.utils.CompanyConfig;
 
 
 /**
@@ -36,10 +35,10 @@ public String generateVacationDecision(Employee emp, VacationRecord vac, Company
             "ima pravo na godišnji odmor. Vreme korišćenja određeno je u skladu sa potrebama procesa rada i uz konsultaciju sa zaposlenim.\n\n" +
             "Pouka o pravnom leku:\n" +
             "Protiv ovog rešenja zaposleni može da pokrene spor pred nadležnim sudom u roku od 60 dana od dana dostavljanja.\n\n" +
-            "U " + CompanyConfig.getCompanyCity() + ",\n" +
+            "U " + company.getCity() + ",\n" +
             "Dana: " + vac.getFormattedDate(vac.getDecisionDate()) + " godine\n\n" +
             "                                                        _____________________________________\n" +
-            "                                                        " + CompanyConfig.getDirectorName() + ", direktor\n\n" +
+            "                                                        " + company.getDirectorName() + ", direktor\n\n" +
             "Dostavljeno:\n" +
             "- Zaposlenom\n" +
             "- Službi za obračun zarada\n" +

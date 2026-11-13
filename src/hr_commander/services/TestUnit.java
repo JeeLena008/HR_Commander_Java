@@ -168,6 +168,22 @@ public class TestUnit {
         String rešenjeTekst = docEngine.generateVacationDecision(radnik, testOdmor, firma);
 
         System.out.println("\n" + rešenjeTekst);
+
+        // ========================================================
+        // TEST: ČITANJE ISTORIJE SVIH ODMORA ZA TASIĆA IZ BAZE
+        // ========================================================
+
+        System.out.println("\n--- ISTORIJA SVIH KORIŠĆENIH ODMORA ZA RADNIKA BROJ 1 ---");
+
+        ArrayList<VacationRecord> tasicIstorija = dao.getVacationHistoryByEmployeeId(1);
+        System.out.println("Ukupno pronađeno odobrenih odmora u bazi: " + tasicIstorija.size());
+
+        for (VacationRecord vr : tasicIstorija){
+            System.out.println(" ->Period: " + vr.getFormattedDate(vr.getStartDate()) + "do" + vr.getFormattedDate(vr.getEndDate()) +
+                    "| Dana: " + vr.getWorkingDaysUsed() + "| Tip: " + vr.getVacationType() + "| Napomena: " + vr.getNote());
+        }
+
+
     }
 }
 
