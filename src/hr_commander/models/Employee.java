@@ -24,6 +24,7 @@ public abstract class Employee {
     protected String jobPosition;//Radno mesto u firmi
     protected int employeeId;//Interni ID (1001, 1002...)
     private static int idCounter = 1000;//Brojac za ID
+    protected Integer managerId;
 
     //--- 2. CONTRACT DATA
     protected String contractStatus;//Ugovor/Neodredjeno
@@ -206,8 +207,15 @@ public abstract class Employee {
         this.tachographCardExpiry = date;
     }
 
+    public Integer getManagerId() {
+        return managerId;
+    }
 
-    //===============================================
+    public void setManagerId(Integer managerId) {
+        this.managerId = managerId;
+    }
+
+//===============================================
     //GETTERS AND SETTERS - GROUP 2: CONTRACT DATA
     //===============================================
 
