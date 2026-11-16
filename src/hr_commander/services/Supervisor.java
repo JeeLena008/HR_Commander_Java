@@ -124,4 +124,23 @@ public class Supervisor {
         }
         return list;
     }
+    /**
+     * Filters active employees who still have unused OLD vacation days approaching June 30th.
+     *
+     * @return list of employees with pending old vacation
+     */
+
+    public ArrayList<Employee> getEmployeesWithExpiringOldVacation(){
+        ArrayList<Employee> list = new ArrayList<>();
+
+        for (Employee emp : this.staffList){
+            if (emp.isActive() && emp.getOldVacation() > 0){
+
+            }
+        }
+        return list;
+    }
+
+
+
 }

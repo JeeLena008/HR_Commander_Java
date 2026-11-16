@@ -88,7 +88,7 @@ public class TestUnit {
         // ========================================================
         // 🏖️ TEST: UPIS GODIŠNJEG ODMORA U BAZU (SQL INSERT)
         // ========================================================
-        System.out.println("\n--- TESTIRAMO UPIS ODMORA U MYSQL BAZU ---");
+      System.out.println("\n--- TESTIRAMO UPIS ODMORA U MYSQL BAZU ---");
 
         VacationRecord odmor = new VacationRecord(
                 1,
@@ -99,13 +99,7 @@ public class TestUnit {
         odmor.setNote("Prvi deo starog odmora - more");
         odmor.setDecisionDate(LocalDate.of(2026, 6, 20)); //Datum resenja
 
-        boolean uspeh = dao.insertVacationRecord(odmor);
 
-        if (uspeh) {
-            System.out.println("BRAVO! Odmor je uspešno upisan u MySql bazu podataka!");
-        }else{
-            System.out.println("❌ Nešto je zapelo pri upisu.");
-        }
         //=========================================
         //AUTOMATSKI OBRAČUN DANA I ROKOVA ODMORA
         //=========================================
@@ -182,6 +176,19 @@ public class TestUnit {
             System.out.println(" ->Period: " + vr.getFormattedDate(vr.getStartDate()) + "do" + vr.getFormattedDate(vr.getEndDate()) +
                     "| Dana: " + vr.getWorkingDaysUsed() + "| Tip: " + vr.getVacationType() + "| Napomena: " + vr.getNote());
         }
+        // ========================================================
+        // ⚠️ ALARM ZA 30. JUN: KO JOŠ VUČE STARI ODMOR?
+        // ========================================================
+
+        ArrayList<Employee> stariOdmoriLista = supervisor.getEmployeesWithExpiringOldVacation();
+        System.out.println("\n RADNICI KOJI IMAJU NEISKORIŠĆEN STARI ODMOR: " + stariOdmoriLista.size());
+
+        for (Employee e : stariOdmoriLista){
+            System.out.println("  -> " + e.getFullName() + " | Preostalo starog odmora: " + e.getOldVacation() + "dana!");
+
+        }
+
+
 
 
     }
