@@ -141,6 +141,29 @@ public class Supervisor {
         return list;
     }
 
+    // ========================================
+    // 🌲 RECURSIVE CHAIN OF COMMAND (Use Case)
+    // ========================================
+
+    /**
+     * Recursive method to find the ultimate operational head (top of the pyramid).
+     *
+     * @param current current employee
+     * @return ultimate boss at the top
+     */
+    public Employee getUltimateBoss(Employee current){
+        if (current.getManagerId() == null){
+            return current;
+        }
+        for (Employee potentialBoss : this.staffList){
+            if(potentialBoss.getEmployeeId() == current.getManagerId()){
+
+                return getUltimateBoss(potentialBoss);
+            }
+        }
+        return current;
+    }
+
 
 
 }

@@ -104,6 +104,10 @@ public class EmployeeDAO {
 
                 emp.setTachographCardExpiry(toLocalDate(rs.getDate("tachograph_card_expiry")));
 
+                emp.setManagerId(rs.getObject("manager_id") != null ? rs.getInt("manager_id") : null);
+
+                emp.setLegalSignatory(rs.getBoolean("is_legal_signatory"));
+
                 list.add(emp);
 
             }

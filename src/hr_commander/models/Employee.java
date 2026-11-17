@@ -25,6 +25,7 @@ public abstract class Employee {
     protected int employeeId;//Interni ID (1001, 1002...)
     private static int idCounter = 1000;//Brojac za ID
     protected Integer managerId;
+    protected boolean isLegalSignatory = false;
 
     //--- 2. CONTRACT DATA
     protected String contractStatus;//Ugovor/Neodredjeno
@@ -215,7 +216,14 @@ public abstract class Employee {
         this.managerId = managerId;
     }
 
-//===============================================
+    public boolean isLegalSignatory(){
+        return isLegalSignatory;
+    }
+
+    public void setLegalSignatory(boolean legalSignatory) {
+        this.isLegalSignatory = legalSignatory;
+    }
+    //===============================================
     //GETTERS AND SETTERS - GROUP 2: CONTRACT DATA
     //===============================================
 

@@ -187,6 +187,17 @@ public class TestUnit {
             System.out.println("  -> " + e.getFullName() + " | Preostalo starog odmora: " + e.getOldVacation() + "dana!");
 
         }
+        // ========================================================
+        // TEST: REKURZIVNI LANAC KOMANDOVANJA (USE CASE)
+        // ========================================================
+
+        System.out.println("\n--- TEST: KO JE GLAVNI ŠEF ZA TASIĆA? ---");
+
+        Employee vrhovniŠef = supervisor.getUltimateBoss(radnik);
+
+        System.out.println("Radnik: " + radnik.getFullName() + "(Vozač)");
+        System.out.println("Vrhovni operativni šef iznad njega je: " + vrhovniŠef.getFullName() + "(" + vrhovniŠef.getJobPosition() + ")!");
+
 
 
 
