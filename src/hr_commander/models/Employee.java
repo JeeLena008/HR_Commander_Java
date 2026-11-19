@@ -26,6 +26,8 @@ public abstract class Employee {
     private static int idCounter = 1000;//Brojac za ID
     protected Integer managerId;
     protected boolean isLegalSignatory = false;
+    protected Integer deputyId;
+    protected boolean isOnLeave = false;
 
     //--- 2. CONTRACT DATA
     protected String contractStatus;//Ugovor/Neodredjeno
@@ -223,6 +225,23 @@ public abstract class Employee {
     public void setLegalSignatory(boolean legalSignatory) {
         this.isLegalSignatory = legalSignatory;
     }
+
+    public Integer getDeputyId() {
+        return deputyId;
+    }
+
+    public void setDeputyId(Integer deputyId) {
+        this.deputyId = deputyId;
+    }
+
+    public boolean isOnLeave() {
+        return isOnLeave;
+    }
+
+    public void setOnLeave(boolean onLeave) {
+        this.isOnLeave = onLeave;
+    }
+
     //===============================================
     //GETTERS AND SETTERS - GROUP 2: CONTRACT DATA
     //===============================================

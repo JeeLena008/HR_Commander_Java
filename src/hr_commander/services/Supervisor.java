@@ -163,6 +163,42 @@ public class Supervisor {
         }
         return current;
     }
+    // ============================
+    // DELEGATION ENGINE (Use Case)
+    // ============================
+
+    /**
+     * Resolves the actual acting manager. If the direct manager is on sick leave
+     * or vacation, automatically routes approval to their designated deputy or higher boss.
+     *
+     *
+     * @param targetEmployee employee requesting approval
+     * @return active acting manager
+     */
+    public  Employee getActingBoss(Employee targetEmployee){
+        Employee directBoss = null;
+        for (Employee e : this.staffList){
+            if (e.getEmployeeId() == targetEmployee.getManagerId()){
+                directBoss = e;
+                break;
+            }
+        }
+        if (directBoss == null) return targetEmployee;
+
+        if (!directBoss.isOnLeave()){
+            return directBoss;
+        }
+        System.out.println("INFO: Šef [" + directBoss.getFullName() + "] je na odsustvu/bolovanju! Tražim zamenu...");
+
+        if (directBoss.getDeputyId() != null){
+            for (Employee deputy : this.staffList){
+                if (deputy.getEmployeeId() == directBoss.getDeputyId() && !deputy.isOnLeave()){
+                    return deputy;
+                }
+            }
+        }
+        return getUltimateBoss(directBoss);
+    }
 
 
 

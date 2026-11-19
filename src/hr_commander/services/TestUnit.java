@@ -187,9 +187,9 @@ public class TestUnit {
             System.out.println("  -> " + e.getFullName() + " | Preostalo starog odmora: " + e.getOldVacation() + "dana!");
 
         }
-        // ========================================================
-        // TEST: REKURZIVNI LANAC KOMANDOVANJA (USE CASE)
-        // ========================================================
+        // ====================================
+        // TEST: REKURZIVNI LANAC KOMANDOVANJA
+        // ====================================
 
         System.out.println("\n--- TEST: KO JE GLAVNI ŠEF ZA TASIĆA? ---");
 
@@ -198,6 +198,30 @@ public class TestUnit {
         System.out.println("Radnik: " + radnik.getFullName() + "(Vozač)");
         System.out.println("Vrhovni operativni šef iznad njega je: " + vrhovniŠef.getFullName() + "(" + vrhovniŠef.getJobPosition() + ")!");
 
+        // ========================================================
+        // TEST USE CASE: ŠEF JE NA BOLOVANJU, KO GA MENJA?
+        // ========================================================
+
+        System.out.println("\n--- TEST: DELEGIRANJE KAD JE ŠEF NA BOLOVANJU ---");
+
+        Employee stefan = null;
+        for (Employee e : dbStaff){
+            if (e.getEmployeeId() == 22){
+                stefan = e;
+                break;
+            }
+        }
+        if (stefan != null){
+            stefan.setOnLeave(true);
+
+            stefan.setDeputyId(23);
+
+            Employee dezurniSef = supervisor.getActingBoss(radnik);
+
+            System.out.println("Radnik: " + radnik.getFullName() + "(Vozač)");
+            System.out.println("Zahtev automatski preusmeren na: " + dezurniSef.getFullName() + " (" + dezurniSef.getJobPosition() + ")!");
+
+        }
 
 
 
