@@ -152,11 +152,15 @@ public class Supervisor {
      * @return ultimate boss at the top
      */
     public Employee getUltimateBoss(Employee current){
-        if (current.getManagerId() == null){
+        if (current.getManagerId() == null || current.getManagerId().equals(current.getEmployeeId())){
             return current;
         }
         for (Employee potentialBoss : this.staffList){
             if(potentialBoss.getEmployeeId() == current.getManagerId()){
+
+                if (potentialBoss.getManagerId() != null && potentialBoss.getManagerId().equals(current.getEmployeeId())){
+                    return potentialBoss;
+                }
 
                 return getUltimateBoss(potentialBoss);
             }

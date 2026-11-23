@@ -1,0 +1,23 @@
+Na osnovu člana 192, a u vezi sa čl. 68. do 75. Zakona o radu ("Službeni glasnik RS", br. 24/2005, 61/2005, 54/2009, 32/2013, 75/2014, 13/2017, 113/2017 i 95/2018), a u skladu sa Ugovorom o radu br. {{BROJ_UGOVORA}}, {{NAZIV_FIRME}}, {{GRAD}}, {{ADRESA}} (poslodavac), direktor {{DIREKTOR}}, dana {{DATUM_RESENJA}} godine, donosi:
+
+               REŠENJE O KORIŠĆENJU GODIŠNJEG ODMORA
+
+1. Zaposlenom {{IME_RADNIKA}} na poslovima {{POZICIJA}} odobrava se korišćenje godišnjeg odmora u trajanju od {{BROJ_DANA}} radnih dana.
+
+2. Godišnji odmor koristiće se u periodu od {{DATUM_OD}} do {{DATUM_DO}} godine.
+
+3. Zaposleni je dužan da se javi na rad dana {{DATUM_POVRATKA}} godine (prvi radni dan).
+
+Za vreme korišćenja godišnjeg odmora zaposlenom pripada naknada zarade u skladu sa Zakonom i opštim aktom.
+
+Obrazloženje:
+Zaposleni ima pravo na godišnji odmor u skladu sa Zakonom i Ugovorom o radu. Vreme korišćenja određeno je u skladu sa procesom rada.
+
+Pouka o pravnom leku:
+Protiv ovog rešenja zaposleni može pokrenuti spor pred nadležnim sudom u roku od 60 dana.
+
+U {{GRAD}},
+Dana: {{DATUM_RESENJA}} godine
+
+                                            _____________________________
+                                            {{DIREKTOR}}, direktor

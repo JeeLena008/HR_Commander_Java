@@ -4,46 +4,58 @@ import hr_commander.models.CompanyProfile;
 import hr_commander.models.Employee;
 import hr_commander.models.VacationRecord;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 
 /**
  * Service engine responsible for assembling official legal documents, contracts, and decisions.
  */
 public class DocumentEngine {
 
-/**
- * Generates formal statutory Vacation Leave Decision text based on Serbian Labor Law (Art. 192 & 68-75).
- *
- * @param emp employee taking leave
- * @param vac vacation record details
- * @return full legal document text
- */
-public String generateVacationDecision(Employee emp, VacationRecord vac, CompanyProfile company){
+    /**
+     * Reads the external vacation template, populates placeholders, and saves the final document.
+     *
+     * @param emp     employee taking leave
+     * @param vac     vacation record details
+     * @param company employer legal profile
+     * @return Path to generated file or null if failed
+     */
+    public String generateVacationDecision(Employee emp, VacationRecord vac, CompanyProfile company) {
 
-    return "Na osnovu člana 192, a u vezi sa čl. 68. do 75. Zakona o radu (\"Službeni glasnik RS\", br. 24/2005, 61/2005,\n" +
-            "54/2009, 32/2013, 75/2014, 13/2017 (Odluka US), 113/2017 i 95/2018 (autentično tumačenje), dalje: Zakon),\n" +
-            "a u skladu sa Ugovorom o radu br. " + emp.getActiveContractNumber() + ",\n" +
-            company.getCompanyName() + ", " + company.getCity() + ", " + company.getAddress() + " (naziv i sedište poslodavca),\n" +
-            "direktor " + company.getDirectorName() + ", dana " + vac.getFormattedDate(vac.getDecisionDate()) + " godine, donosi:\n\n" +
-            "                               REŠENJE O KORIŠĆENJU GODIŠNJEG ODMORA\n\n" +
-            "1. Zaposlenom " + emp.getFullName() + " na poslovima " + emp.getJobPosition() + "\n" +
-            "   odobrava se korišćenje godišnjeg odmora u trajanju od " + vac.getWorkingDaysUsed() + " radnih dana.\n\n" +
-            "2. Godišnji odmor koristiće se u periodu od " + vac.getFormattedDate(vac.getStartDate()) + " do " + vac.getFormattedDate(vac.getEndDate()) + " godine.\n\n" +
-            "3. Zaposleni je dužan da se javi na rad dana " + vac.getFormattedDate(vac.getReturnToWorkDate()) + " godine (prvi radni dan).\n\n" +
-            "Za vreme korišćenja godišnjeg odmora zaposlenom pripada naknada zarade u skladu sa Zakonom i opštim aktom.\n\n" +
-            "Obrazloženje:\n" +
-            "Zaposleni u skladu sa Zakonom i kriterijumima utvrđenim Ugovorom o radu br. " + emp.getActiveContractNumber() + "\n" +
-            "ima pravo na godišnji odmor. Vreme korišćenja određeno je u skladu sa potrebama procesa rada i uz konsultaciju sa zaposlenim.\n\n" +
-            "Pouka o pravnom leku:\n" +
-            "Protiv ovog rešenja zaposleni može da pokrene spor pred nadležnim sudom u roku od 60 dana od dana dostavljanja.\n\n" +
-            "U " + company.getCity() + ",\n" +
-            "Dana: " + vac.getFormattedDate(vac.getDecisionDate()) + " godine\n\n" +
-            "                                                        _____________________________________\n" +
-            "                                                        " + company.getDirectorName() + ", direktor\n\n" +
-            "Dostavljeno:\n" +
-            "- Zaposlenom\n" +
-            "- Službi za obračun zarada\n" +
-            "- Arhivi";
-}
+        Path templatePath = Path.of("templates/resenje_odmor_sablon.txt");
+
+        try {
+            String content = Files.readString(templatePath);
+
+            content = content.replace("{{BROJ_UGOVORA}}", emp.getActiveContractNumber());
+            content = content.replace("{{NAZIV_FIRME}}", company.getCompanyName());
+            content = content.replace("{{GRAD}}", company.getCity());
+            content = content.replace("{{ADRESA}}", company.getAddress());
+            content = content.replace("{{DIREKTOR}}", company.getDirectorName());
+            content = content.replace("{{DATUM_REŠENJA}}", vac.getFormattedDate(vac.getDecisionDate()));
+            content = content.replace("{{IME_RADNIKA}}", emp.getFullName());
+            content = content.replace("{{POZICIJA}}", emp.getJobPosition());
+            content = content.replace("{{BROJ_DANA}}", String.valueOf(vac.getWorkingDaysUsed()));
+            content = content.replace("{{DATUM_OD}}", vac.getFormattedDate(vac.getStartDate()));
+            content = content.replace("{{DATUM_DO}}", vac.getFormattedDate(vac.getEndDate()));
+            content = content.replace("{{DATUM_POVRATKA}}", vac.getFormattedDate(vac.getReturnToWorkDate()));
+
+            String safeFileName = emp.getFullName().replace(" ", "_");
+            Path outputPath = Path.of("generated_docs/Rešenje_" + safeFileName + ".txt");
+
+            Files.writeString(outputPath, content);
+
+            System.out.println("USPEH: Rešenje uspešno kreirano na putanji: " + outputPath);
+            return outputPath.toString();
+        } catch (IOException e) {
+            System.out.println("GREŠKA PRI RADU SA FAJLOVIMA: " + e.getMessage());
+            return null;
+
+
+        }
+    }
 
 
 }
